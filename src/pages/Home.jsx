@@ -23,6 +23,8 @@ function Home() {
       setIsCreating(true);
       setError("");
 
+      console.log("Creating canvas...");
+
       const docRef = await addDoc(
         collection(db, "canvases"),
         {
@@ -32,15 +34,23 @@ function Home() {
         }
       );
 
-      navigate(`/canvas/${docRef.id}`);
+      console.log(
+        "Canvas created:",
+        docRef.id
+      );
+
+      navigate(
+        `/canvas/${docRef.id}`
+      );
     } catch (error) {
       console.error(
-        "Failed to create canvas:",
+        "Firebase error:",
         error
       );
 
       setError(
-        "Failed to create canvas. Please try again."
+        error?.message ||
+          "Failed to create canvas."
       );
     } finally {
       setIsCreating(false);
